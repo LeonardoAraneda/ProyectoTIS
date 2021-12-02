@@ -3,10 +3,12 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 import psycopg2
 import psycopg2.extras
+from forms import SignupForm
 
 app = Flask(__name__)
-posts = []
+app.config['SECRET_KEY'] = '7110c8ae51a4b5af97be6534caef90e4bb9bdcb3380af008f90b23a5d1616bf319bc298105da20fe'
 
+posts = []
 @app.route("/")
 def index():
     return render_template("index.html", num_posts=len(posts))
@@ -25,17 +27,15 @@ def post_form(post_id=None):
 
 @app.route("/signup/", methods=["GET", "POST"])
 def show_signup_form():
-    return render_template("signup_form.html")
-
-
-@app.route("/signup/", methods=["GET", "POST"])
-def show_signup_form():
-    if request.method == 'POST':
-        name = request.form['name']
-        email = request.form['email']
-        password = request.form['password']
+    form = SignupForm()
+    if form.validate_on_submit():
+        name = form.name.data
+        id = form.id.data
+        dv = form.dv.data
+        email = form.email.data
+        password = form.password.data
         next = request.args.get('next', None)
         if next:
             return redirect(next)
         return redirect(url_for('index'))
-    return render_template("signup_form.html")
+    return render_template("signup_form.html", form=form)
