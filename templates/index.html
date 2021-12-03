@@ -1,7 +1,11 @@
 {% extends "base_template.html" %}
 
-{% block title %}Titulo de Prueba{% endblock %}
+{% block title %}Tutorial Flask: Miniblog{% endblock %}
 
 {% block content %}
-    {{ num_posts }} posts
+    <ul>
+    {% for post in posts %}
+        <li>{{ post.title }}</li>
+    {% endfor %}
+    </ul>
 {% endblock %}

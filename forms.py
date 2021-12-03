@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, PasswordField
+from wtforms import StringField, SubmitField, PasswordField, TextAreaField
 from wtforms.validators import DataRequired, Email, Length
 
 
@@ -18,3 +18,17 @@ class Cancha(FlaskForm):
     dia = StringField('Dia', validators=[DataRequired(), Length(max = 10)])
     hora = StringField('Hora', validators=[DataRequired(), Length(max = 5)])
     submit = SubmitField('Registrar')
+
+class crear_cancha(FlaskForm):
+    title = StringField('Título', validators=[DataRequired(), Length(max=128)])
+    title_slug = StringField('Título slug', validators=[Length(max=128)])
+    content = TextAreaField('Descripcion')
+    id_cancha = StringField('ID Cancha', validators=[DataRequired(), Length(max = 3)])
+    tipo_cancha  = StringField('Tipo de Cancha', validators=[DataRequired(), Length(max = 200)])
+    submit = SubmitField('Registrar')
+
+class PostForm(FlaskForm):
+    title = StringField('Título', validators=[DataRequired(), Length(max=128)])
+    title_slug = StringField('Título slug', validators=[Length(max=128)])
+    content = TextAreaField('Contenido')
+    submit = SubmitField('Enviar')
