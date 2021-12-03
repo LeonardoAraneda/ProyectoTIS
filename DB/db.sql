@@ -1,6 +1,6 @@
 CREATE TABLE roles(
     id_rol INT PRIMARY KEY,
-    nombre_rol VARCHAR(19)
+    nombre_rol VARCHAR(20)
 );
 
 CREATE TABLE telefonos(
@@ -23,14 +23,14 @@ CREATE TABLE tel_personal(
     prioridad INT,
     FOREIGN KEY (id_personal) REFERENCES personal(id_personal) ON DELETE CASCADE ON UPDATE CASCADE,
     FOREIGN KEY (numero_personal) REFERENCES telefonos(numero_telefonico) ON DELETE CASCADE ON UPDATE CASCADE,
-    PRIMARY KEY (id_personal, numero)
+    PRIMARY KEY (id_personal, numero_personal)
 );
 
 CREATE TABLE cliente(
     id_cliente VARCHAR(8) PRIMARY KEY,
     dv_cliente VARCHAR(1),
     nombre_cliente VARCHAR(100),
-    mail_cliente VARCHAR(100),
+    mail_cliente VARCHAR(100)
 );
 
 CREATE TABLE tel_cliente(
@@ -51,7 +51,7 @@ CREATE TABLE canchas(
     id_cancha INT,
     tipo_cancha INT,
     FOREIGN KEY (tipo_cancha) REFERENCES tipo_cancha(id_tipo) ON DELETE CASCADE ON UPDATE CASCADE,
-    PRIMARY KEY (id_tipo, tipo_cancha)
+    PRIMARY KEY (id_cancha)
 );
 
 CREATE TABLE bloques(
@@ -63,7 +63,7 @@ CREATE TABLE bloques(
 
 CREATE TABLE tipo_pago(
     id_pago INT PRIMARY KEY,
-    nombre_pago VARCHAR(8)
+    nombre_pago VARCHAR(20)
 );
 
 CREATE TABLE reserva(
