@@ -12,11 +12,9 @@ class SignupForm(FlaskForm):
     submit = SubmitField('Registrar')
     
 class Cancha(FlaskForm):
-    id_cancha = StringField('ID', validators=[DataRequired(), Length(max = 3)])
+    id_cancha = StringField('ID Cancha', validators=[DataRequired(), Length(max = 3)])
     tipo_cancha  = StringField('Tipo de Cancha', validators=[DataRequired(), Length(max = 200)])
-    
-class Block(FlaskForm):
-    id_block = StringField('ID', validators=[DataRequired(), Length(max = 3)])
-    dia = StringField('Dia', validators=[DataRequired(), Length(max = 8)])
+    id_block = StringField('ID Block', validators=[DataRequired(), Length(max = 3)])
+    dia = StringField('Dia', validators=[DataRequired(), Length(max = 10)])
     hora = StringField('Hora', validators=[DataRequired(), Length(max = 5)])
-    
+    submit = SubmitField('Registrar')
