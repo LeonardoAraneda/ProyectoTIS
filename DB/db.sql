@@ -57,7 +57,6 @@ CREATE TABLE canchas(
 CREATE TABLE bloques(
     id_bloque INT PRIMARY KEY,
     id_cancha INT,
-    dia VARCHAR(11),
     hora VARCHAR(10),
     FOREIGN KEY (id_cancha) REFERENCES canchas(id_cancha) ON DELETE CASCADE ON UPDATE CASCADE
 );

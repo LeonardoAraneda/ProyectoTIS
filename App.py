@@ -57,4 +57,3 @@ def show_reserva_form():
             return redirect(next)
         return redirect(url_for('reserva_completa'))
     return render_template("reserva_cancha.html", form=form)
-    #comentario
