@@ -3,7 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 import psycopg2
 import psycopg2.extras
-from forms import SignupForm, Cancha, crear_cancha
+from forms import SignupForm,SignInForm, Cancha, crear_cancha
 
 conn = psycopg2.connect(user = "postgres",
         password = "f3l1p312",
@@ -62,6 +62,18 @@ def show_signup_form():
         return redirect(url_for('index'))
     return render_template("signup_form.html", form=form)
 
+@app.route("/signin/", methods=["GET", "POST"])
+def show_signin_form():
+    form = SignInForm()
+    if form.validate_on_submit():
+        username = form.username.data
+        password = form.password.data
+        next = request.args.get('next', None)
+        if next:
+            return redirect(next)
+        return redirect(url_for('index'))
+    return render_template("signin_form.html", form=form)
+
 @app.route("/reserva/", methods=["GET", "POST"])
 def show_reserva_form():
     form = Cancha()
@@ -72,6 +84,8 @@ def show_reserva_form():
         dia = form.dia.data
         hora = form.hora.data
         next = request.args.get('next', None)
+#        cur = conn.cursor()
+#        cur.execute('INSERT INTO ')
         if next:
             return redirect(next)
         return redirect(url_for('reserva_completa'))
