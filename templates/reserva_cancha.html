@@ -1,0 +1,26 @@
+{% extends "base_template.html" %}
+
+{% block title %}Reserva de Canchas{% endblock %}
+
+{% block content %}
+    <form action="" method="post" novalidate>
+        {{ form.hidden_tag() }}
+        <div>
+            {{ form.id_cancha.label }}
+            {{ form.id_cancha(size=3) }}<br>
+            {% for error in form.id_cancha.errors %}
+            <span style="color: red;">{{ error }}</span>
+            {% endfor %}
+        </div>
+        <div>
+            {{ form.tipo_cancha.label }}
+            {{ form.tipo_cancha(size=200) }}<br>
+            {% for error in form.id.errors %}
+            <span style="color: red;">{{ error }}</span>
+            {% endfor %}
+        </div>
+        <div>
+            {{ form.submit() }}
+        </div>
+    </form>
+{% endblock %}
