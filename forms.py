@@ -19,6 +19,14 @@ class Cancha(FlaskForm):
     hora = StringField('Hora', validators=[DataRequired(), Length(max = 5)])
     submit = SubmitField('Registrar')
 
+class crear_cancha(FlaskForm):
+    title = StringField('Título', validators=[DataRequired(), Length(max=128)])
+    title_slug = StringField('Título slug', validators=[Length(max=128)])
+    content = TextAreaField('Descripcion')
+    id_cancha = StringField('ID Cancha', validators=[DataRequired(), Length(max = 3)])
+    tipo_cancha  = StringField('Tipo de Cancha', validators=[DataRequired(), Length(max = 200)])
+    submit = SubmitField('Registrar')
+
 class PostForm(FlaskForm):
     title = StringField('Título', validators=[DataRequired(), Length(max=128)])
     title_slug = StringField('Título slug', validators=[Length(max=128)])

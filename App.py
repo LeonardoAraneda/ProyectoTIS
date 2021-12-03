@@ -3,7 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 import psycopg2
 import psycopg2.extras
-from forms import SignupForm, Cancha, PostForm
+from forms import SignupForm, Cancha, crear_cancha
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '7110c8ae51a4b5af97be6534caef90e4bb9bdcb3380af008f90b23a5d1616bf319bc298105da20fe'
@@ -23,20 +23,22 @@ def reserva_completa():
 def show_post(slug):
     return render_template("post_view.html", slug_title=slug)
 
-@app.route("/admin/post/", methods=['GET', 'POST'], defaults={'post_id': None})
-@app.route("/admin/post/<int:post_id>/", methods=['GET', 'POST'])
+@app.route("/admin/agregar_canchas/", methods=['GET', 'POST'], defaults={'post_id': None})
+@app.route("/admin/agregar_canchas/<int:post_id>/", methods=['GET', 'POST'])
 def post_form(post_id):
-    form = PostForm()
+    form = crear_cancha()
     if form.validate_on_submit():
         title = form.title.data
         title_slug = form.title_slug.data
         content = form.content.data
+        id_cancha = form.id_cancha.data
+        tipo_cancha = form.tipo_cancha.data
 
-        post = {'title': title, 'title_slug': title_slug, 'content': content}
+        post = {'title': title, 'title_slug': title_slug, 'content': content, 'id_cancha': id_cancha, 'tipo_cancha': tipo_cancha}
         posts.append(post)
 
         return redirect(url_for('index'))
-    return render_template("admin/post_form.html", form=form)
+    return render_template("admin/agregar_canchas.html", form=form)
 
 
 @app.route("/signup/", methods=["GET", "POST"])

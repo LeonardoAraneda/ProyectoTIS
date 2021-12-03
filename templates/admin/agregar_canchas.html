@@ -33,6 +33,20 @@
             {% endfor %}
         </div>
         <div>
+            {{ form.id_cancha.label }}
+            {{ form.id_cancha(size=3) }}<br>
+            {% for error in form.id_cancha.errors %}
+            <span style="color: red;">{{ error }}</span>
+            {% endfor %}
+        </div>
+        <div>
+            {{ form.tipo_cancha.label }}
+            {{ form.tipo_cancha(size=50) }}<br>
+            {% for error in form.tipo_cancha.errors %}
+            <span style="color: red;">{{ error }}</span>
+            {% endfor %}
+        </div>
+        <div>
             {{ form.submit() }}
         </div>
     </form>
