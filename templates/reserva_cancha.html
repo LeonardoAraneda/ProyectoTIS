@@ -14,8 +14,29 @@
         </div>
         <div>
             {{ form.tipo_cancha.label }}
-            {{ form.tipo_cancha(size=200) }}<br>
-            {% for error in form.id.errors %}
+            {{ form.tipo_cancha(size=50) }}<br>
+            {% for error in form.tipo_cancha.errors %}
+            <span style="color: red;">{{ error }}</span>
+            {% endfor %}
+        </div>
+        <div>
+            {{ form.id_block.label }}
+            {{ form.id_block(size=50) }}<br>
+            {% for error in form.id_block.errors %}
+            <span style="color: red;">{{ error }}</span>
+            {% endfor %}
+        </div>
+        <div>
+            {{ form.dia.label }}
+            {{ form.dia(size=50) }}<br>
+            {% for error in form.dia.errors %}
+            <span style="color: red;">{{ error }}</span>
+            {% endfor %}
+        </div>
+        <div>
+            {{ form.hora.label }}
+            {{ form.hora(size=50) }}<br>
+            {% for error in form.hora.errors %}
             <span style="color: red;">{{ error }}</span>
             {% endfor %}
         </div>
