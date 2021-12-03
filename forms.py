@@ -11,6 +11,11 @@ class SignupForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), Email()])
     submit = SubmitField('Registrar')
     
+class SignInForm(FlaskForm):
+    username = StringField("Usuario", validators=[DataRequired(),Length(max=30)])
+    password = StringField("Contraseña", validators=[DataRequired(),Length(max=30)])
+    submit = SubmitField('Ingresar')
+    
 class Cancha(FlaskForm):
     id_cancha = StringField('ID Cancha', validators=[DataRequired(), Length(max = 3)])
     tipo_cancha  = StringField('Tipo de Cancha', validators=[DataRequired(), Length(max = 200)])
