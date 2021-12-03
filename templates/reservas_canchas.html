@@ -1,0 +1,22 @@
+{% extends "base_template.html" %}
+
+{% block title %}Reserva de Canchas{% endblock %}
+
+{% block content %}
+    <table>
+        <thead>
+            <tr>
+                <td>ID</td>
+                <td>Tipo Cancha</td>
+            </tr>
+        </thead>
+        <tbody>
+            {%  for cancha in canchas %}
+                <tr>
+                    <td>{{ cancha.0 }}</td>
+                    <td>{{ cancha.1 }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
