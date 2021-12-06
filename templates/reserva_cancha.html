@@ -3,45 +3,73 @@
 {% block title %}Reserva de Canchas{% endblock %}
 
 {% block content %}
-    <form action="" method="post" novalidate>
-        {{ form.hidden_tag() }}
-        <div>
-            {{ form.id_cancha.label }}
-            {{ form.id_cancha(size=3) }}<br>
-            {% for error in form.id_cancha.errors %}
-            <span style="color: red;">{{ error }}</span>
-            {% endfor %}
-        </div>
-        <div>
-            {{ form.tipo_cancha.label }}
-            {{ form.tipo_cancha(size=50) }}<br>
-            {% for error in form.tipo_cancha.errors %}
-            <span style="color: red;">{{ error }}</span>
-            {% endfor %}
-        </div>
-        <div>
-            {{ form.id_block.label }}
-            {{ form.id_block(size=50) }}<br>
-            {% for error in form.id_block.errors %}
-            <span style="color: red;">{{ error }}</span>
-            {% endfor %}
-        </div>
-        <div>
-            {{ form.dia.label }}
-            {{ form.dia(size=50) }}<br>
-            {% for error in form.dia.errors %}
-            <span style="color: red;">{{ error }}</span>
-            {% endfor %}
-        </div>
-        <div>
-            {{ form.hora.label }}
-            {{ form.hora(size=50) }}<br>
-            {% for error in form.hora.errors %}
-            <span style="color: red;">{{ error }}</span>
-            {% endfor %}
-        </div>
-        <div>
-            {{ form.submit() }}
-        </div>
-    </form>
+    <div class="container">
+        <h2>Reserva de cancha</h2>
+    </div>
+    <hr>
+    <div class="container">
+        <form action="" method="post" class="form form-horizontal"novalidate>
+            {{ form.hidden_tag() }}
+            <div class="form-group row">
+                {{ form.id_cancha.label(class_="col-sm-2 col-form-label") }}
+                <div class="col-sm-10">
+                    {{ form.id_cancha(class_="form-control") }}
+                    {% for error in form.id_cancha.errors %}
+                    <span style="color: red;">{{ error }}</span>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="form-group row">
+                {{ form.tipo_cancha.label(class_="col-sm-2 col-form-label") }}
+                <div class="col-sm-10">
+                    <select class="custom-select" id="{{ form.tipo_cancha.id }}">
+                        <option value="">Seleccione tipo de cancha</option>
+                        {% for tipo in tipos %}
+                        <option value="{{ tipo.0 }}">{{ tipo.1 }}</option>
+                        {% endfor %}
+                    </select>
+                    {% for error in form.tipo_cancha.errors %}
+                    <span style="color: red;">{{ error }}</span>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="form-group row">
+                {{ form.id_block.label(class_="col-sm-2 col-form-label") }}
+                <div class="col-sm-10">
+                    {{ form.id_block(class_="form-control") }}
+                    {% for error in form.id_block.errors %}
+                    <span style="color: red;">{{ error }}</span>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="form-group row">
+                {{ form.dia.label(class_="col-sm-2 col-form-label") }}
+                <div class="col-sm-10">
+                    {{ form.dia(class_="form-control") }}
+                    {% for error in form.dia.errors %}
+                    <span style="color: red;">{{ error }}</span>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="form-group row">
+                {{ form.hora.label(class_="col-sm-2 col-form-label") }}
+                <div class="col-sm-10">
+                    {{ form.hora(class_="form-control") }}
+                    {% for error in form.hora.errors %}
+                    <span style="color: red;">{{ error }}</span>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-sm-10">
+                    {{ form.submit(class_="btn btn-primary") }}
+                </div>
+            </div>
+        </form>
+    </div>
 {% endblock %}

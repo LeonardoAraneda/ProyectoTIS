@@ -6,10 +6,10 @@ import psycopg2.extras
 from forms import SignupForm,SignInForm, Cancha, crear_cancha
 
 conn = psycopg2.connect(user = "postgres",
-        password = "nikoseba9902",
+        password = "5846",
         host = "localhost",
         port = "5432",
-        database = "reserva_canchas")
+        database = "ProyectoTIS")
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '7110c8ae51a4b5af97be6534caef90e4bb9bdcb3380af008f90b23a5d1616bf319bc298105da20fe'
@@ -94,7 +94,12 @@ def show_reserva_form():
         if next:
             return redirect(next)
         return redirect(url_for('reserva_completa'))
-    return render_template("reserva_cancha.html", form=form)
+
+    cur = conn.cursor()
+    cur.execute("SELECT * FROM tipo_cancha")
+    tipo_cancha = cur.fetchall()
+    print(tipo_cancha)
+    return render_template("reserva_cancha.html", form = form, tipos = tipo_cancha)
 
 @app.route("/listareservas/", methods=["GET","POST"])
 def show_reserva_completa():
