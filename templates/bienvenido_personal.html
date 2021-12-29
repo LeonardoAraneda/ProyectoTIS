@@ -1,0 +1,9 @@
+{% extends "base_template.html" %}
+
+{% block title %}Bienvenido Personal{% endblock %}
+
+{% block content %}
+    {% for dato in datos %}
+        <p>Hola {{ dato.1 }}!</p>
+    {% endfor %}
+{% endblock %}

@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, PasswordField, TextAreaField
+from wtforms import StringField, SubmitField, PasswordField, TextAreaField, SelectField
 from wtforms.validators import DataRequired, Email, Length
 
 
@@ -18,7 +18,7 @@ class SignInForm(FlaskForm):
     
 class Cancha(FlaskForm):
     id_cancha = StringField('ID Cancha', validators=[DataRequired(), Length(max = 3)])
-    tipo_cancha  = StringField('Tipo de Cancha', validators=[DataRequired(), Length(max = 200)])
+    cancha = SelectField('Cancha', choices=[('1', 'Cancha 1 - Pasto'), ('2', 'Cancha 2 - Tierra'), ('3', 'Cancha 3 - Sintético')])
     id_block = StringField('ID Block', validators=[DataRequired(), Length(max = 3)])
     dia = StringField('Dia', validators=[DataRequired(), Length(max = 10)])
     hora = StringField('Hora', validators=[DataRequired(), Length(max = 5)])
