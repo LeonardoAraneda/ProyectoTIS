@@ -6,11 +6,11 @@ import psycopg2
 import psycopg2.extras
 from forms import SignupForm,SignInForm, Cancha, crear_cancha
 
-conn = psycopg2.connect(user = "postgres",
-        password = "f3l1p312",
-        host = "localhost",
+conn = psycopg2.connect(user = "riwbncvvdzqyza",
+        password = "9be398d70978c9b443d619eb0c969f361ec927edc559d1df10a70851fa76dc27",
+        host = "ec2-52-72-252-211.compute-1.amazonaws.com",
         port = "5432",
-        database = "reserva_canchas")
+        database = "ddtnat73bqjn52")
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '7110c8ae51a4b5af97be6534caef90e4bb9bdcb3380af008f90b23a5d1616bf319bc298105da20fe'
