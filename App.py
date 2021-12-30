@@ -31,7 +31,11 @@ def show_post(slug):
 
 @app.route("/bienvenido_personal/")
 def bienvenido_personal():
-    return render_template("bienvenido_personal.html")
+    cur = conn.cursor()
+    cur.execute('SELECT * FROM personal')
+    datos = cur.fetchall()
+    print((datos[0]))
+    return render_template("bienvenido_personal.html", canchas = datos)
 
 @app.route("/admin/agregar_canchas/", methods=['GET', 'POST'], defaults={'post_id': None})
 @app.route("/admin/agregar_canchas/<int:post_id>/", methods=['GET', 'POST'])
@@ -78,18 +82,23 @@ def show_signin_form():
         username = form.username.data
         password = form.password.data
         next = request.args.get('next', None)
-        query = "SELECT id_personal,nombre_personal FROM personal WHERE id_personal = %s AND pass = %s"
+        query = "SELECT * FROM personal WHERE id_personal = %s AND pass = %s"
+        query2 = "SELECT * FROM  personal"
         vals = (username, password)
         cur = conn.cursor()
         cur.execute(query,vals)
         datos = cur.fetchall()
-        print(datos)
+        cur.close()
+        cur = conn.cursor()
+        cur.execute(query2)
+        datos2 = cur.fetchall()
+        print(datos2)
         if next:
             return redirect(next)
         if datos == []:
             print("algo anda mal")
         else:
-            return render_template("bienvenido_personal.html", datos=datos)
+            return render_template("bienvenido_personal.html", datos=datos, datos2=datos2)
     return render_template("signin_form.html", form=form)
 
 @app.route("/reserva/", methods=["GET", "POST"])
