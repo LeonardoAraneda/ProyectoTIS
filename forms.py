@@ -8,6 +8,7 @@ class SignupForm(FlaskForm):
     name = StringField('Nombre', validators=[DataRequired(), Length(max=64)])
     email = StringField('Email', validators=[DataRequired(), Email()])
     password = PasswordField('Password', validators=[DataRequired()])
+    rol = SelectField('Rol', validators=[DataRequired()], choices = [])
     submit = SubmitField('Registrar')
     
 class SignInForm(FlaskForm):
@@ -43,3 +44,11 @@ class Cliente(FlaskForm):
     name = StringField('Nombre', validators=[DataRequired(), Length(max=64)])
     email = StringField('Email', validators=[DataRequired(), Email()])
     submit = SubmitField('Registrar')
+    
+class DeleteCount(FlaskForm):
+    id = SelectField('RUT', validators=[DataRequired()], choices = [])
+    name = SelectField('Nombre', validators=[DataRequired(), Length(max=64)], choices = [])
+    email = StringField('Email', validators=[DataRequired(), Email()])
+    password = PasswordField('Password', validators=[DataRequired()])
+    rol = SelectField('Rol', validators=[DataRequired()], choices = [])
+    submit = SubmitField('Eliminar')
