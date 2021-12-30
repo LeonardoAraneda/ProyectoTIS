@@ -1,0 +1,35 @@
+{% extends "base_template.html" %}
+
+{% block title %} Sistema | Crear Cliente {% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="card">
+            <h5 class="card-header">Gestionar Cliente</h5>
+            <div class="card-body">
+                <form method="POST" novalidate>
+                    {{ form.hidden_tag() }}
+                    <div class="mb-3 row">
+                        {{ form.idc.label(class="col-sm-2 col-form-label") }}
+                        <div class="col-sm-10">
+                            {{ form.idc(class_="form-control") }}
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        {{ form.name.label(class="col-sm-2 col-form-label") }}
+                        <div class="col-sm-10">
+                            {{ form.name(class_="form-control") }}
+                        </div>
+                    </div>
+                    <div class="mb-3 row">
+                        {{ form.email.label(class="col-sm-2 col-form-label") }}
+                        <div class="col-sm-10">
+                            {{ form.email(class_="form-control") }}
+                        </div>
+                    </div>
+                    {{ form.submit(class_="btn btn-primary") }}
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
