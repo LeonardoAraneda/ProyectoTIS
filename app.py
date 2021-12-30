@@ -186,8 +186,13 @@ def show_reserva_form():
         cur = conn.cursor()
         cur.execute("SELECT COUNT(*) FROM reserva")
         id_reserva = cur.fetchall()
-
-        print(id_reserva[0][0])
+        
+        cur.execute("SELECT * FROM reserva")
+        reserva = cur.fetchall()
+        
+        #for i in reserva:
+        #    if id_reserva[0][0] == reserva[0][i]:
+        #        id_reserva += 1
 
         ingresos = {
             'reserva': id_reserva[0][0]+1,
