@@ -4,7 +4,7 @@ from flask_login import LoginManager
 from flask_session import Session
 import psycopg2
 import psycopg2.extras
-from forms import SignupForm, SignInForm, ReservaCancha, crear_cancha
+from forms import Cliente, SignupForm, SignInForm, ReservaCancha, crear_cancha
 from datetime import datetime
 
 conn = psycopg2.connect(
@@ -234,8 +234,44 @@ def ver_perfil():
     datos = cur.fetchall()
     print(datos)
     return render_template("post_view.html", datos = datos)
+
+@app.route("/crear_cliente/", methods=["GET","POST"])
+def crear_cliente():
+    form = Cliente()
+    if form.validate_on_submit():
+        idc = form.idc.data
+        name = form.name.data
+        email = form.email.data
+        
+        next = request.args.get('next', None)
+        
+        if 'idc' in session:
+            idc = session['idc']
+
+        cur = conn.cursor()
+        ingresos = {
+            'id'      : idc[0 : idc.find('-')],
+            'dv'      : idc[8 : 9],
+            'name' : name,
+            'email': email
+        }
+        cur.execute("INSERT INTO cliente(id_cliente, dv_cliente, nombre_cliente, mail_cliente) VALUES (%(id)s, %(dv)s, %(name)s, %(email)s)", ingresos)
+        conn.commit()
+        cur.close()
+        if next:
+            return redirect(next)
+        return redirect(url_for('ver_cliente'))
+
+    return render_template("crear_cliente.html", form=form)
     
-    
+@app.route("/ver_clientes/")
+def ver_cliente():
+    cur = conn.cursor()
+    print(id)
+    cur.execute("SELECT * FROM cliente")
+    datos = cur.fetchall()
+    print(datos)
+    return render_template("ver_cliente.html", datos = datos) 
     
 if __name__ == "__main__":
     app.run(debug=True)

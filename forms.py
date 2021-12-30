@@ -37,3 +37,9 @@ class PostForm(FlaskForm):
     title_slug = StringField('Título slug', validators=[Length(max=128)])
     content = TextAreaField('Contenido')
     submit = SubmitField('Enviar')
+    
+class Cliente(FlaskForm):
+    idc = StringField('RUT', validators=[DataRequired()])
+    name = StringField('Nombre', validators=[DataRequired(), Length(max=64)])
+    email = StringField('Email', validators=[DataRequired(), Email()])
+    submit = SubmitField('Registrar')
