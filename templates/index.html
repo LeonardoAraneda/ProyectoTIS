@@ -1,7 +1,34 @@
-{% extends "base_template2.html" %}
+{% extends "base_template.html" %}
 
-{% block title %}Reserva Tu Cancha{% endblock %}
+{% block title %} Sistema | Inicio {% endblock %}
 
 {% block content %}
-    <p>Hola Bienvenido!</p>
+    <div class="container">
+        <table id="resultado" class="table table-striped table-bordered" style="width:100%">
+            <thead>
+                <tr>
+                    <td>RUT</td>
+                    <td>Nombre</td>
+                    <td>Mail</td>
+                    <td>Rol</td>
+                </tr>
+            </thead>
+            <tbody>
+                {% for dato in datos %}
+                    <tr>
+                        <td>{{ dato.0 }}</td>
+                        <td>{{ dato.2 }}</td>
+                        <td>{{ dato.3 }}</td>
+                        <td>{{ dato.5 }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            $('#resultado').DataTable();
+        });
+    </script>
 {% endblock %}

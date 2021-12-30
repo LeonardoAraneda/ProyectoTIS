@@ -1,50 +1,58 @@
-{% extends "base_template3.html" %}
+{% extends "base_template.html" %}
 
-{% block title %}Reserva de Canchas{% endblock %}
+{% block title %} Sistema | Crear Reserva {% endblock %}
 
 {% block content %}
     <div class="container">
-        <h2>Reserva de cancha</h2>
-    </div>
-    <hr>
-    <div class="container">
-        <form action="" method="post" class="form form-horizontal"novalidate>
-            {{ form.hidden_tag() }}
-            <div class="form-group row">
-                {{ form.cancha.label(class="col-sm-2 col-form-label") }}
-                <div class="col-sm-10">
-                    {{form.cancha(class="custom-select")}}
-                    {% for error in form.cancha.errors %}
-                    <span style="color: red;">{{ error }}</span>
-                    {% endfor %}
-                </div>
-            </div>
+        <div class="card">
+            <h5 class="card-header">Gestionar reserva</h5>
+            <div class="card-body">
+                <form method="POST" novalidate>
+                    {{ form.hidden_tag() }}
+                    <div class="mb-3 row">
+                        {{ form.cliente.label(class="col-sm-2 col-form-label") }}
+                        <div class="col-sm-10">
+                            {{ form.cliente(class_="form-select", **{"onchange":"this.form.submit()"}) }}
+                        </div>
+                    </div>
 
-            <div class="form-group row">
-                {{ form.dia.label(class_="col-sm-2 col-form-label") }}
-                <div class="col-sm-10">
-                    {{ form.dia(class_="form-control") }}
-                    {% for error in form.dia.errors %}
-                    <span style="color: red;">{{ error }}</span>
-                    {% endfor %}
-                </div>
-            </div>
+                    <div class="mb-3 row">
+                        {{ form.cancha.label(class="col-sm-2 col-form-label") }}
+                        <div class="col-sm-10">
+                            {{ form.cancha(class_="form-select") }}
+                        </div>
+                    </div>
 
-            <div class="form-group row">
-                {{ form.hora.label(class_="col-sm-2 col-form-label") }}
-                <div class="col-sm-10">
-                    {{ form.hora(class_="form-control") }}
-                    {% for error in form.hora.errors %}
-                    <span style="color: red;">{{ error }}</span>
-                    {% endfor %}
-                </div>
-            </div>
+                    <div class="mb-3 row">
+                        {{ form.bloque.label(class="col-sm-2 col-form-label") }}
+                        <div class="col-sm-10">
+                            {{ form.bloque(class_="form-select") }}
+                        </div>
+                    </div>
 
-            <div class="form-group row">
-                <div class="col-sm-10">
+                    <div class="mb-3 row">
+                        {{ form.dia.label(class="col-sm-2 col-form-label") }}
+                        <div class="col-sm-10">
+                            {{ form.dia(class_="form-control") }}
+                        </div>
+                    </div>
+
+                    <div class="mb-3 row">
+                        {{ form.tipo_pago.label(class="col-sm-2 col-form-label") }}
+                        <div class="col-sm-10">
+                            {{ form.tipo_pago(class_="form-select") }}
+                        </div>
+                    </div>
+
+                    <div class="mb-3 row">
+                        {{ form.id_pago.label(class="col-sm-2 col-form-label") }}
+                        <div class="col-sm-10">
+                            {{ form.id_pago(type_="number", class_="form-control") }}
+                        </div>
+                    </div>
                     {{ form.submit(class_="btn btn-primary") }}
-                </div>
+                </form>
             </div>
-        </form>
+        </div>
     </div>
 {% endblock %}
