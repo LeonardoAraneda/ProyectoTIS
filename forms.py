@@ -52,3 +52,13 @@ class DeleteCount(FlaskForm):
     password = PasswordField('Password', validators=[DataRequired()])
     rol = SelectField('Rol', validators=[DataRequired()], choices = [])
     submit = SubmitField('Eliminar')
+
+class DeleteReserva(FlaskForm):
+    id_reserva = SelectField('ID Reserva', validators=[DataRequired()], choices=[])
+    cliente = SelectField('Cliente', validators=[DataRequired()], choices=[])
+    cancha = SelectField('Cancha', validators=[DataRequired()], choices=[])
+    bloque = SelectField('Bloque', validators=[DataRequired()], choices=[])
+    dia = StringField('Día', validators=[DataRequired()])
+    tipo_pago = SelectField('Tipo pago', validators=[DataRequired()], choices=[])
+    id_pago = StringField('N° Pago', validators=[DataRequired()])
+    submit = SubmitField('Eliminar')

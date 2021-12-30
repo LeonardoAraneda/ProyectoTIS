@@ -4,7 +4,7 @@ from flask_login import LoginManager
 from flask_session import Session
 import psycopg2
 import psycopg2.extras
-from forms import Cliente, DeleteCount, SignupForm, SignInForm, ReservaCancha, crear_cancha
+from forms import Cliente, DeleteCount, DeleteReserva,  SignupForm, SignInForm, ReservaCancha, crear_cancha
 from datetime import datetime
 
 conn = psycopg2.connect(
@@ -306,6 +306,34 @@ def eliminar_cuenta():
         return redirect(url_for('eliminar_cuenta'))
         
     return render_template("eliminar_cuenta.html", form=form)
+    
+@app.route("/eliminar_reserva/",  methods=["GET","POST"])
+def eliminar_reserva():
+    form = DeleteReserva()
+    
+    cur = conn.cursor()
+    cur.execute("SELECT r.id_reserva, CONCAT('Reserva: ', cl.nombre_cliente, ', ', tc.nombre_tipo, ' - ', r.dia, '  ', b.hora) FROM reserva r, cliente cl, tipo_cancha tc, canchas ca, bloques b WHERE r.cliente=cl.id_cliente AND r.cancha=ca.id_cancha AND ca.tipo_cancha=tc.id_tipo AND r.hora=b.id_bloque")
+    form.id_reserva.choices = cur.fetchall()
+    cur.close()
+    
+    #if form.validate_on_submit():
+    if request.method == 'POST':
+        print(form.id_reserva.choices)
+        id = form.id_reserva.data
+        print(id)
+        
+        next = request.args.get('next', None)
+        cur = conn.cursor()
+        
+        valores = {'val1':id}
+        cur.execute("DELETE FROM reserva WHERE id_reserva = %(val1)s",valores)
+        conn.commit()
+        cur.close()
+        if next:
+            return redirect(next)
+        return redirect(url_for('eliminar_reserva'))
+        
+    return render_template("eliminar_reserva.html", form=form)
     
 if __name__ == "__main__":
     app.run(debug=True)
