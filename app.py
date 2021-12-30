@@ -190,7 +190,7 @@ def show_reserva_form():
         print(id_reserva[0][0])
 
         ingresos = {
-            'reserva': id_reserva[0][0],
+            'reserva': id_reserva[0][0]+1,
             'ingreso': datetime.today().strftime('%Y-%m-%d'),
             'cliente': cliente,
             'admin'  : session_id,
