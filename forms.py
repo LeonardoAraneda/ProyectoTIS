@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, PasswordField, TextAreaField, SelectField
+from wtforms import StringField, SubmitField, PasswordField, TextAreaField, SelectField, DateField
 from wtforms.validators import DataRequired, Email, Length
 
 
@@ -20,7 +20,7 @@ class ReservaCancha(FlaskForm):
     cliente = SelectField('Cliente', validators=[DataRequired()], choices=[])
     cancha = SelectField('Cancha', validators=[DataRequired()], choices=[])
     bloque = SelectField('Bloque', validators=[DataRequired()], choices=[])
-    dia = StringField('Día', validators=[DataRequired()])
+    dia = DateField('Día', validators=[DataRequired()], format='%Y-%m-%d')
     tipo_pago = SelectField('Tipo pago', validators=[DataRequired()], choices=[])
     id_pago = StringField('N° Pago', validators=[DataRequired()])
     submit = SubmitField('Registrar')
