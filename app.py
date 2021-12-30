@@ -141,15 +141,18 @@ def show_reserva_form():
         cur.close()
         if next:
             return redirect(next)
-        return redirect(url_for('reserva_completa'))
+        return redirect(url_for('show_reserva_completa'))
 
     return render_template("reserva_cancha.html", form = form)
 
 @app.route("/listareservas/", methods=["GET","POST"])
 def show_reserva_completa():
     form = Cancha()
+    if 'name' in session:
+        n = session['name']
+    valores = {'val1':n}
     cur = conn.cursor()
-    cur.execute('SELECT * FROM reserva')
+    cur.execute('SELECT * FROM reserva WHERE a_cargo = %(val1)s', valores)
     datos = cur.fetchall()
 #    print(datos)
     return render_template("reservas_canchas.html", canchas = datos) 
