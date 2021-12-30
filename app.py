@@ -288,7 +288,8 @@ def eliminar_cuenta():
     form.id.choices = cur.fetchall()
     cur.close()
     
-    if form.validate_on_submit():
+    #if form.validate_on_submit():
+    if request.method == 'POST':
         print(form.id.choices)
         id = form.id.data
         print(id)
@@ -296,18 +297,13 @@ def eliminar_cuenta():
         next = request.args.get('next', None)
         cur = conn.cursor()
         
-        cur.execute("SELECT * FROM personal")
-        id_personal = cur.fetchall()
-        
-        print(id_personal[0][0])
-        
         valores = {'val1':id}
         cur.execute("DELETE FROM personal WHERE id_personal = %(val1)s",valores)
         conn.commit()
         cur.close()
         if next:
             return redirect(next)
-        return redirect(url_for('show_reserva_completa'))
+        return redirect(url_for('eliminar_cuenta'))
         
     return render_template("eliminar_cuenta.html", form=form)
     
