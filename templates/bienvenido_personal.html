@@ -1,27 +1,27 @@
-{% extends "base_template3.html" %}
+{% extends "base_template.html" %}
 
 {% block title %}Bienvenido Personal{% endblock %}
 
 {% block content %}
     {% for dato in datos %}
-        <p>Hola {{ dato.2 }}!</p>
+        <p>Hola {{ dato.2 }}!, {{ session.rol }}</p>
     {% endfor %}
     <div class="container">
         <table id="resultado" class="table table-striped table-bordered" style="width:100%">
             <thead>
                 <tr>
-                    <td>Nombre</td>
                     <td>RUT</td>
-                    <td>Digito Verificador</td>
+                    <td>Nombre</td>
                     <td>Mail</td>
+                    <td>Rol</td>
                 </tr>
             </thead>
             <tbody>
                 {% for dato in datos %}
                     <tr>
-                        <td>{{ dato.2 }}</td>
                         <td>{{ dato.0 }}</td>
-                        <td>{{ dato.1}}</td>
+                        <td>{{ dato.1 }}</td>
+                        <td>{{ dato.2 }}</td>
                         <td>{{ dato.3 }}</td>
                     </tr>
                 {% endfor %}

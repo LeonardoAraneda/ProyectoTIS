@@ -4,11 +4,10 @@ from wtforms.validators import DataRequired, Email, Length
 
 
 class SignupForm(FlaskForm):
+    id = StringField('RUT', validators=[DataRequired()])
     name = StringField('Nombre', validators=[DataRequired(), Length(max=64)])
-    id = StringField('RUT', validators=[DataRequired(), Length(max=8), Length(min=7)])
-    dv = StringField('Digito Verificador', validators=[DataRequired(), Length(max=1)])
-    password = PasswordField('Password', validators=[DataRequired()])
     email = StringField('Email', validators=[DataRequired(), Email()])
+    password = PasswordField('Password', validators=[DataRequired()])
     submit = SubmitField('Registrar')
     
 class SignInForm(FlaskForm):
@@ -16,10 +15,13 @@ class SignInForm(FlaskForm):
     password = StringField("Contraseña", validators=[DataRequired(),Length(max=30)])
     submit = SubmitField('Ingresar')
     
-class Cancha(FlaskForm):
-    cancha = SelectField('Cancha', choices=[('0', 'Cancha 1 - Pasto'), ('1', 'Cancha 2 - Tierra'), ('2', 'Cancha 3 - Sintético')])
-    dia = StringField('Dia', validators=[DataRequired(), Length(max = 10)])
-    hora = StringField('Hora', validators=[DataRequired(), Length(max = 5)])
+class ReservaCancha(FlaskForm):
+    cliente = SelectField('Cliente', validators=[DataRequired()], choices=[])
+    cancha = SelectField('Cancha', validators=[DataRequired()], choices=[])
+    bloque = SelectField('Bloque', validators=[DataRequired()], choices=[])
+    dia = StringField('Día', validators=[DataRequired()])
+    tipo_pago = SelectField('Tipo pago', validators=[DataRequired()], choices=[])
+    id_pago = StringField('N° Pago', validators=[DataRequired()])
     submit = SubmitField('Registrar')
 
 class crear_cancha(FlaskForm):
@@ -28,7 +30,7 @@ class crear_cancha(FlaskForm):
     content = TextAreaField('Descripcion')
     id_cancha = StringField('ID Cancha', validators=[DataRequired(), Length(max = 3)])
     tipo_cancha  = StringField('Tipo de Cancha', validators=[DataRequired(), Length(max = 200)])
-    submit = SubmitField('Registrar')
+    submit = SubmitField('Crear reserva')
 
 class PostForm(FlaskForm):
     title = StringField('Título', validators=[DataRequired(), Length(max=128)])
