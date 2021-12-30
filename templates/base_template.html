@@ -39,6 +39,10 @@
 					</a>
 					<ul class="dropdown-menu text-small" aria-labelledby="dropdownUser">
 						<li><a class="dropdown-item" href="/perfil/">Perfil</a></li>
+						{% if (session.rol == 0) %}
+							<li><a class="dropdown-item" href="/signup/">Crear Cuenta</a></li>
+							<li><a class="dropdown-item" href="/eliminar_cuenta/">Eliminar Cuenta</a></li>
+						{% endif %}
 						<li><hr class="dropdown-divider"></li>
 						<li><a class="dropdown-item" href="/logout">Cerrar Sesión</a></li>
 					</ul>

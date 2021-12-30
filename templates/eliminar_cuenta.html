@@ -1,0 +1,23 @@
+{% extends "base_template.html" %}
+
+{% block title %} Sistema | Eliminar Cuenta {% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="card">
+            <h5 class="card-header">Gestionar Cuentas</h5>
+            <div class="card-body">
+                <form method="POST" novalidate>
+                    {{ form.hidden_tag() }}
+                    <div class="mb-3 row">
+                        {{ form.id.label(class="col-sm-2 col-form-label") }}
+                        <div class="col-sm-10">
+                            {{ form.id(class_="form-select", **{"onchange":"this.form.submit()"}) }}
+                        </div>
+                    </div>
+                    {{ form.submit(class_="btn btn-primary") }}
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

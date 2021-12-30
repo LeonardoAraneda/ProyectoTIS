@@ -4,7 +4,7 @@ from flask_login import LoginManager
 from flask_session import Session
 import psycopg2
 import psycopg2.extras
-from forms import Cliente, SignupForm, SignInForm, ReservaCancha, crear_cancha
+from forms import Cliente, DeleteCount, SignupForm, SignInForm, ReservaCancha, crear_cancha
 from datetime import datetime
 
 conn = psycopg2.connect(
@@ -76,11 +76,16 @@ def post_form(post_id):
 @app.route("/signup/", methods=["GET", "POST"])
 def show_signup_form():
     form = SignupForm()
+    cur = conn.cursor()
+    cur.execute("SELECT id_rol, nombre_rol FROM roles")
+    form.rol.choices = cur.fetchall()
+    cur.close()
     if form.validate_on_submit():
         id       = form.id.data
         name     = form.name.data
         email    = form.email.data
         password = form.password.data
+        rol      = form.rol.data
 
         next = request.args.get('next', None)
 
@@ -89,19 +94,20 @@ def show_signup_form():
             'dv'      : id[8 : 9],
             'name'    : name,
             'email'   : email,
-            'password': password
+            'password': password,
+            'rol'     : rol
         }
         print("dv: ",id[8:9])
         if id[8:9] == '':
             return redirect(url_for('show_signup_form'))
 
         cur = conn.cursor()
-        cur.execute("INSERT INTO personal(id_personal, dv_personal, nombre_personal, mail_personal, pass, rol) VALUES (%(id)s, %(dv)s, %(name)s, %(email)s, %(password)s, 0)", ingresos)
+        cur.execute("INSERT INTO personal(id_personal, dv_personal, nombre_personal, mail_personal, pass, rol) VALUES (%(id)s, %(dv)s, %(name)s, %(email)s, %(password)s, %(rol)s)", ingresos)
         conn.commit()
         cur.close()
         if next:
             return redirect(next)
-        return redirect(url_for('index'))
+        return redirect(url_for('ver_perfil'))
     return render_template("signup_form.html", form=form)
 
 @app.route("/signin/", methods=["GET", "POST"])
@@ -271,7 +277,39 @@ def ver_cliente():
     cur.execute("SELECT * FROM cliente")
     datos = cur.fetchall()
     print(datos)
-    return render_template("ver_cliente.html", datos = datos) 
+    return render_template("ver_cliente.html", datos = datos)
+
+@app.route("/eliminar_cuenta/",  methods=["GET","POST"])
+def eliminar_cuenta():
+    form = DeleteCount()
+    
+    cur = conn.cursor()
+    cur.execute("SELECT id_personal, CONCAT(id_personal, '-', dv_personal, ' - ', nombre_personal) FROM personal")
+    form.id.choices = cur.fetchall()
+    cur.close()
+    
+    if form.validate_on_submit():
+        print(form.id.choices)
+        id = form.id.data
+        print(id)
+        
+        next = request.args.get('next', None)
+        cur = conn.cursor()
+        
+        cur.execute("SELECT * FROM personal")
+        id_personal = cur.fetchall()
+        
+        print(id_personal[0][0])
+        
+        valores = {'val1':id}
+        cur.execute("DELETE FROM personal WHERE id_personal = %(val1)s",valores)
+        conn.commit()
+        cur.close()
+        if next:
+            return redirect(next)
+        return redirect(url_for('show_reserva_completa'))
+        
+    return render_template("eliminar_cuenta.html", form=form)
     
 if __name__ == "__main__":
     app.run(debug=True)

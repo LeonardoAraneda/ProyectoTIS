@@ -32,14 +32,14 @@
                 {{ form.password(type_="password", class_="form-control", id_="pass", placeholder_="Contraseña")}}
                 {{ form.password.label }}
             </div>
+            <div class="form-floating">
+                {{ form.rol(class_="form-select", id_="pass")}}
+                {{ form.rol.label }}
+            </div>
 
             {{ form.submit(class_="w-100 btn btn-lg btn-primary") }}
 
             <hr>
-
-            <h1 class="h3 mb-3 fw-normal">Inicio de sesión</h1>
-
-            <a href="/signin/" class="w-100 btn btn-lg btn-success">Iniciar sesión</a>
         </form>
     </main>
 
