@@ -86,11 +86,14 @@ def show_signup_form():
 
         ingresos = {
             'id'      : id[0 : id.find('-')],
-            'dv'      : id[id.find('-')+1 : len(id)],
+            'dv'      : id[8 : 9],
             'name'    : name,
             'email'   : email,
             'password': password
         }
+        print("dv: ",id[8:9])
+        if id[8:9] == '':
+            return redirect(url_for('show_signup_form'))
 
         cur = conn.cursor()
         cur.execute("INSERT INTO personal(id_personal, dv_personal, nombre_personal, mail_personal, pass, rol) VALUES (%(id)s, %(dv)s, %(name)s, %(email)s, %(password)s, 0)", ingresos)
@@ -115,16 +118,25 @@ def show_signin_form():
         cur = conn.cursor()
         cur.execute(query,vals)
         datos = cur.fetchall()
+        print(datos)
         cur.close()
 
-        session["id"] = datos[0][0]
-        session["name"] = datos[0][2]
-        session["rol"] = datos[0][5]
+
+        while True:
+            try:
+                session["id"] = datos[0][0]
+                session["name"] = datos[0][2]
+                session["rol"] = datos[0][5]
+                break
+            except IndexError:
+                print("algo no esta bien")
+                return redirect(url_for('show_signin_form'))
+
+        if datos == []:
+            print("algo anda mal")
 
         if next:
             return redirect(next)
-        if datos == []:
-            print("algo anda mal")
         else:
             return render_template("index.html", datos=datos)
     return render_template("signin_form.html", form=form)
@@ -197,6 +209,7 @@ def show_reserva_completa():
 
     if 'id' in session:
         n = session['id']
+        print(n)
 
     valores = {'val1':n}
     cur = conn.cursor()
@@ -211,5 +224,18 @@ def logout():
 
     return redirect("/")
 
+@app.route("/perfil/")
+def ver_perfil():
+    id = session["id"]
+    valores = {'val1':id}
+    cur = conn.cursor()
+    print(id)
+    cur.execute("SELECT * FROM personal WHERE id_personal = %(val1)s",valores)
+    datos = cur.fetchall()
+    print(datos)
+    return render_template("post_view.html", datos = datos)
+    
+    
+    
 if __name__ == "__main__":
     app.run(debug=True)
