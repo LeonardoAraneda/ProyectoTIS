@@ -17,9 +17,7 @@ class SignInForm(FlaskForm):
     submit = SubmitField('Ingresar')
     
 class Cancha(FlaskForm):
-    id_cancha = StringField('ID Cancha', validators=[DataRequired(), Length(max = 3)])
-    cancha = SelectField('Cancha', choices=[('1', 'Cancha 1 - Pasto'), ('2', 'Cancha 2 - Tierra'), ('3', 'Cancha 3 - Sintético')])
-    id_block = StringField('ID Block', validators=[DataRequired(), Length(max = 3)])
+    cancha = SelectField('Cancha', choices=[('0', 'Cancha 1 - Pasto'), ('1', 'Cancha 2 - Tierra'), ('2', 'Cancha 3 - Sintético')])
     dia = StringField('Dia', validators=[DataRequired(), Length(max = 10)])
     hora = StringField('Hora', validators=[DataRequired(), Length(max = 5)])
     submit = SubmitField('Registrar')

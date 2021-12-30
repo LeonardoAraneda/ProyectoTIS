@@ -1,6 +1,7 @@
-from flask import Flask, render_template, request, redirect, url_for, flash
+from flask import Flask, render_template, request, redirect, url_for, flash, session
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
+from flask_session import Session
 import psycopg2
 import psycopg2.extras
 from forms import SignupForm,SignInForm, Cancha, crear_cancha
@@ -14,7 +15,9 @@ conn = psycopg2.connect(user = "postgres",
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '7110c8ae51a4b5af97be6534caef90e4bb9bdcb3380af008f90b23a5d1616bf319bc298105da20fe'
 
-
+app.config["SESSION_PERMANENT"] = False
+app.config["SESSION_TYPE"] = "filesystem"
+Session(app)
 
 posts = []
 @app.route("/")
@@ -23,7 +26,12 @@ def index():
 
 @app.route("/reserva_completa/")
 def reserva_completa():
-    return render_template("reserva_completa.html")
+    form = Cancha()
+    cur = conn.cursor()
+    cur.execute('SELECT * FROM reserva')
+    datos = cur.fetchall()
+#    print(datos)
+    return render_template("reserva_completa.html", canchas = datos)
 
 @app.route("/p/<string:slug>/")
 def show_post(slug):
@@ -31,11 +39,16 @@ def show_post(slug):
 
 @app.route("/bienvenido_personal/")
 def bienvenido_personal():
+    if 'name' in session:
+        n = session['name']
     cur = conn.cursor()
-    cur.execute('SELECT * FROM personal')
+    username = str(session["name"])
+    valores = {'val1':n}
+#    print(type(n))
+    cur.execute("SELECT * FROM personal WHERE id_personal = %(val1)s",valores)
     datos = cur.fetchall()
-    print((datos[0]))
-    return render_template("bienvenido_personal.html", canchas = datos)
+    conn.commit()
+    return render_template("bienvenido_personal.html", datos = datos)
 
 @app.route("/admin/agregar_canchas/", methods=['GET', 'POST'], defaults={'post_id': None})
 @app.route("/admin/agregar_canchas/<int:post_id>/", methods=['GET', 'POST'])
@@ -92,7 +105,8 @@ def show_signin_form():
         cur = conn.cursor()
         cur.execute(query2)
         datos2 = cur.fetchall()
-        print(datos2)
+        session["name"] = username
+#        print(datos2)
         if next:
             return redirect(next)
         if datos == []:
@@ -105,19 +119,24 @@ def show_signin_form():
 def show_reserva_form():
     form = Cancha()
     if form.validate_on_submit():
-        id_cancha = form.id_cancha.data
         cancha = form.cancha.data
-        id_block = form.id_block.data
         dia = form.dia.data
         hora = form.hora.data
         next = request.args.get('next', None)
-        valores = {
-            'val1': cancha,
-            'val2': dia, 
-            'val3': hora,
-        }
+        if "name" in session:
+            n = session['name']
         cur = conn.cursor()
-        cur.execute("INSERT INTO reserva(id_reserva, fecha_ingreso, cliente, a_cargo, tipo_pago, numero_pago, cancha, dia, hora) VALUES (0, '2021-12-03', '12345678', '20098023', 0, 0, %(val1)s, %(val2)s, %(val3)s)", valores)
+        cur.execute("SELECT COUNT(*) FROM reserva")
+        contador = [contador[0] for contador in cur.fetchall()]
+        print(contador[0])
+        valores = {
+            'val2': cancha,
+            'val3': dia, 
+            'val4': hora,
+            'val1': n,
+            'val5': contador[0]
+        }
+        cur.execute("INSERT INTO reserva(id_reserva, fecha_ingreso, cliente, a_cargo, tipo_pago, numero_pago, cancha, dia, hora) VALUES (%(val5)s, '2021-12-03', '12345678', %(val1)s, 0, 0, %(val2)s, %(val3)s, %(val4)s)", valores)
         conn.commit()
         cur.close()
         if next:
@@ -132,5 +151,8 @@ def show_reserva_completa():
     cur = conn.cursor()
     cur.execute('SELECT * FROM reserva')
     datos = cur.fetchall()
-    print(datos)
+#    print(datos)
     return render_template("reservas_canchas.html", canchas = datos) 
+
+if __name__ == "__main__":
+    app.run(debug=True)

@@ -1,4 +1,4 @@
-{% extends "base_template.html" %}
+{% extends "base_template3.html" %}
 
 {% block title %}Bienvenido Personal{% endblock %}
 
@@ -17,7 +17,7 @@
                 </tr>
             </thead>
             <tbody>
-                {% for dato in datos2 %}
+                {% for dato in datos %}
                     <tr>
                         <td>{{ dato.2 }}</td>
                         <td>{{ dato.0 }}</td>
