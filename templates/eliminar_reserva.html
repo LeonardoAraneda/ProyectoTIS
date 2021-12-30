@@ -1,0 +1,23 @@
+{% extends "base_template.html" %}
+
+{% block title %} Sistema | Eliminar Reserva {% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="card">
+            <h5 class="card-header">Gestionar Reservas</h5>
+            <div class="card-body">
+                <form method="POST" novalidate>
+                    {{ form.hidden_tag() }}
+                    <div class="mb-3 row">
+                        {{ form.id_reserva.label(class="col-sm-2 col-form-label") }}
+                        <div class="col-sm-10">
+                            {{ form.id_reserva(class_="form-select") }}
+                        </div>
+                    </div>
+                    {{ form.submit(class_="btn btn-primary") }}
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
